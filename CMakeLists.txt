@@ -1,12 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
-project(fifo_map LANGUAGES CXX)
+project(fifo_map CXX)
 
-add_executable(unit
-    src/fifo_map.hpp test/thirdparty/catch/catch.hpp test/unit.cpp
-)
-
-target_include_directories(unit PRIVATE "test" "src" "test/thirdparty")
+set(CMAKE_CXX_STANDARD 11)
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS
@@ -16,15 +12,9 @@ if(MSVC)
     STRING(REPLACE "/O2" "/Od" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
 
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
-else(MSVC)
-    set(CMAKE_CXX_FLAGS
-        "-std=c++11 -stdlib=libc++"
-    )
 endif(MSVC)
 
-include_directories(
-    src test
-)
+include_directories(src)
 
 add_library(${PROJECT_NAME} INTERFACE)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
